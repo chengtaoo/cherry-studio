@@ -5,6 +5,15 @@ import path from 'path'
 
 import { initAppDataDir } from './utils/init'
 
+// Initialize SaaS database if enabled (async, non-blocking)
+if (process.env.ENABLE_SAAS === 'true') {
+  import('./services/saas/database/init')
+    .then(({ initSaaSDatabase }) => initSaaSDatabase())
+    .catch((error) => {
+      console.error('Failed to initialize SaaS database:', error)
+    })
+}
+
 app.isPackaged && initAppDataDir()
 
 // 在主进程中复制 appData 中某些一直被占用的文件

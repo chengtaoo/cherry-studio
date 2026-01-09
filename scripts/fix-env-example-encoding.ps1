@@ -1,3 +1,15 @@
+# Fix .env.example file encoding issue
+# Ensure file uses UTF-8 without BOM encoding
+
+$ErrorActionPreference = "Stop"
+
+$rootDir = Split-Path $PSScriptRoot -Parent
+$envExamplePath = Join-Path $rootDir ".env.example"
+
+Write-Host "Fixing .env.example file encoding..." -ForegroundColor Green
+
+# Content with Chinese comments
+$envContent = @'
 # ============================================
 # Cherry Studio 环境变量配置示例
 # ============================================
@@ -93,3 +105,11 @@ API_PORT=3000
 # development: 开发模式（会显示详细错误信息）
 # production: 生产模式（隐藏内部错误信息）
 NODE_ENV=production
+'@
+
+# Write file using UTF-8 without BOM
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText($envExamplePath, $envContent, $utf8NoBom)
+
+Write-Host "File fixed successfully!" -ForegroundColor Green
+Write-Host "File path: $envExamplePath" -ForegroundColor Cyan

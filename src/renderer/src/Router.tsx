@@ -21,6 +21,8 @@ import PaintingsRoutePage from './pages/paintings/PaintingsRoutePage'
 import SettingsPage from './pages/settings/SettingsPage'
 import AssistantPresetsPage from './pages/store/assistants/presets/AssistantPresetsPage'
 import TranslatePage from './pages/translate/TranslatePage'
+import LoginPage from './pages/auth/LoginPage'
+import RegisterPage from './pages/auth/RegisterPage'
 
 const Router: FC = () => {
   const { navbarPosition } = useNavbarPosition()
@@ -40,6 +42,8 @@ const Router: FC = () => {
           <Route path="/apps" element={<MinAppsPage />} />
           <Route path="/code" element={<CodeToolsPage />} />
           <Route path="/settings/*" element={<SettingsPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/register" element={<RegisterPage />} />
           <Route path="/launchpad" element={<LaunchpadPage />} />
         </Routes>
       </ErrorBoundary>

@@ -1,7 +1,13 @@
-# ============================================
+// Fix .env.example file encoding using Node.js
+const fs = require('fs');
+const path = require('path');
+
+const envExamplePath = path.join(__dirname, '..', '.env.example');
+
+const content = `# ============================================
 # Cherry Studio 环境变量配置示例
 # ============================================
-# 
+#
 # 使用说明：
 # 1. 复制此文件为 .env: cp .env.example .env
 # 2. 根据您的实际环境修改以下配置
@@ -93,3 +99,22 @@ API_PORT=3000
 # development: 开发模式（会显示详细错误信息）
 # production: 生产模式（隐藏内部错误信息）
 NODE_ENV=production
+`;
+
+try {
+  // Write file with UTF-8 encoding (no BOM)
+  fs.writeFileSync(envExamplePath, content, 'utf8');
+  console.log('✓ .env.example 文件已成功修复为 UTF-8 编码');
+  console.log(`文件路径: ${envExamplePath}`);
+
+  // Verify the file
+  const readContent = fs.readFileSync(envExamplePath, 'utf8');
+  if (readContent.includes('使用说明') && readContent.includes('环境变量配置示例')) {
+    console.log('✓ 验证成功：中文内容正常');
+  } else {
+    console.log('⚠ 警告：文件内容可能不正确');
+  }
+} catch (error) {
+  console.error('✗ 修复失败:', error.message);
+  process.exit(1);
+}

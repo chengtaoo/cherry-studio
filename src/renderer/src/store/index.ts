@@ -48,6 +48,7 @@ import tabs from './tabs'
 import toolPermissions from './toolPermissions'
 import translate from './translate'
 import websearch from './websearch'
+import saas from './saas'
 
 const logger = loggerService.withContext('Store')
 
@@ -76,7 +77,8 @@ const rootReducer = combineReducers({
   translate,
   ocr,
   note,
-  toolPermissions
+  toolPermissions,
+  saas
 })
 
 const persistedReducer = persistReducer(

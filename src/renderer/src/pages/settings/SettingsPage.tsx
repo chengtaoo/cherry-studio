@@ -19,6 +19,7 @@ import {
   TextCursorInput,
   Zap
 } from 'lucide-react'
+import { CloudSyncOutlined } from '@ant-design/icons'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
@@ -38,6 +39,7 @@ import SelectionAssistantSettings from './SelectionAssistantSettings/SelectionAs
 import ShortcutSettings from './ShortcutSettings'
 import { ApiServerSettings } from './ToolSettings/ApiServerSettings'
 import WebSearchSettings from './WebSearchSettings'
+import SaaSSettings from './SaaSSettings/SaaSSettings'
 
 const SettingsPage: FC = () => {
   const { pathname } = useLocation()
@@ -81,6 +83,12 @@ const SettingsPage: FC = () => {
             <MenuItem className={isRoute('/settings/data')}>
               <HardDrive size={18} />
               {t('settings.data.title')}
+            </MenuItem>
+          </MenuItemLink>
+          <MenuItemLink to="/settings/saas">
+            <MenuItem className={isRoute('/settings/saas')}>
+              <CloudSyncOutlined style={{ fontSize: 18 }} />
+              {t('settings.saas.title', { defaultValue: '云端同步' })}
             </MenuItem>
           </MenuItemLink>
           <Divider />
@@ -163,6 +171,7 @@ const SettingsPage: FC = () => {
             <Route path="quickAssistant" element={<QuickAssistantSettings />} />
             <Route path="selectionAssistant" element={<SelectionAssistantSettings />} />
             <Route path="data" element={<DataSettings />} />
+            <Route path="saas" element={<SaaSSettings />} />
             <Route path="about" element={<AboutSettings />} />
           </Routes>
         </SettingContent>

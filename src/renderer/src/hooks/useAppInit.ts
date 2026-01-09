@@ -22,6 +22,8 @@ import { defaultLanguage } from '@shared/config/constant'
 import { IpcChannel } from '@shared/IpcChannel'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect } from 'react'
+import { syncService } from '@renderer/services/saas/SyncService'
+import { store } from '@renderer/store'
 import { useTranslation } from 'react-i18next'
 
 import { useDefaultModel } from './useAssistant'
@@ -273,5 +275,18 @@ export function useAppInit() {
 
   useEffect(() => {
     checkDataLimit()
+  }, [])
+
+  // Initialize SaaS sync service
+  useEffect(() => {
+    const saasState = store.getState().saas
+    if (saasState.isEnabled && saasState.isAuthenticated) {
+      // Start auto sync every 30 minutes
+      syncService.startAutoSync(30)
+    }
+
+    return () => {
+      syncService.stopAutoSync()
+    }
   }, [])
 }

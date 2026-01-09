@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: cherry-studio-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-cherry_studio}
+      MYSQL_USER: ${MYSQL_USER:-cherry_studio}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cherry_studio_password}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-rootpassword}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cherry-studio-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cherry-studio-backend
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: ${MYSQL_USER:-cherry_studio}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cherry_studio_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-cherry_studio}
+      JWT_SECRET: ${JWT_SECRET:-change-this-secret-key-in-production}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    networks:
+      - cherry-studio-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  cherry-studio-network:
+    driver: bridge

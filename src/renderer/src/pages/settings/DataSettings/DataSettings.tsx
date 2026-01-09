@@ -43,6 +43,7 @@ import S3Settings from './S3Settings'
 import SiyuanSettings from './SiyuanSettings'
 import WebDavSettings from './WebDavSettings'
 import YuqueSettings from './YuqueSettings'
+import SaaSSettings from '../SaaSSettings/SaaSSettings'
 
 const DataSettings: FC = () => {
   const { t } = useTranslation()
@@ -86,6 +87,7 @@ const DataSettings: FC = () => {
     { key: 'data', title: t('settings.data.data.title'), icon: <FolderCog size={16} /> },
     { key: 'divider_1', isDivider: true, text: t('settings.data.divider.cloud_storage') },
     { key: 'local_backup', title: t('settings.data.local.title'), icon: <FolderCog size={16} /> },
+    { key: 'saas', title: t('settings.saas.title', { defaultValue: '云端同步' }), icon: <CloudSyncOutlined style={{ fontSize: 16 }} /> },
     { key: 'webdav', title: t('settings.data.webdav.title'), icon: <CloudSyncOutlined style={{ fontSize: 16 }} /> },
     { key: 'nutstore', title: t('settings.data.nutstore.title'), icon: <NutstoreIcon /> },
     { key: 's3', title: t('settings.data.s3.title.label'), icon: <CloudServerOutlined style={{ fontSize: 16 }} /> },
@@ -704,6 +706,7 @@ const DataSettings: FC = () => {
         {menu === 'obsidian' && <ObsidianSettings />}
         {menu === 'siyuan' && <SiyuanSettings />}
         {menu === 'local_backup' && <LocalBackupSettings />}
+        {menu === 'saas' && <SaaSSettings />}
       </SettingContainer>
     </Container>
   )

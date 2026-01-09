@@ -8,10 +8,12 @@ import { authMiddleware } from './middleware/auth'
 import { errorHandler } from './middleware/error'
 import { setupOpenAPIDocumentation } from './middleware/openapi'
 import { agentsRoutes } from './routes/agents'
+import { authRoutes } from './routes/auth'
 import { chatRoutes } from './routes/chat'
 import { mcpRoutes } from './routes/mcp'
 import { messagesProviderRoutes, messagesRoutes } from './routes/messages'
 import { modelsRoutes } from './routes/models'
+import { syncRoutes } from './routes/sync'
 
 const logger = loggerService.withContext('ApiServer')
 
@@ -128,6 +130,9 @@ app.get('/', (_req, res) => {
 // Setup OpenAPI documentation before protected routes so docs remain public
 setupOpenAPIDocumentation(app)
 
+// Public auth routes (no authentication required)
+app.use('/v1/auth', authRoutes)
+
 // Provider-specific messages route requires authentication
 app.use('/:provider/v1/messages', authMiddleware, extendMessagesTimeout, messagesProviderRoutes)
 
@@ -140,6 +145,7 @@ apiRouter.use('/mcps', mcpRoutes)
 apiRouter.use('/messages', extendMessagesTimeout, messagesRoutes)
 apiRouter.use('/models', modelsRoutes)
 apiRouter.use('/agents', agentsRoutes)
+apiRouter.use('/sync', syncRoutes)
 app.use('/v1', apiRouter)
 
 // Error handling (must be last)

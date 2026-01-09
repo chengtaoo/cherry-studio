@@ -68,6 +68,22 @@
 
 Cherry Studio 是一款支持多个大语言模型（LLM）服务商的桌面客户端，兼容 Windows、Mac 和 Linux 系统。
 
+## 🚀 SaaS 模式
+
+Cherry Studio 现在支持 B/S 模式的 SaaS 部署！用户可以：
+
+- ✅ 注册账户并登录
+- ✅ 云端存储聊天历史、配置、助手、知识库等数据
+- ✅ 多设备同步，随时随地访问
+- ✅ 私有化部署，数据完全掌控
+
+**快速开始**: 
+- [📖 详尽安装和部署指南](./INSTALLATION_AND_DEPLOYMENT.md) ⭐ **推荐**
+- [SaaS 部署指南](./SAAS_DEPLOYMENT.md)
+- [环境变量配置指南](../ENV_CONFIG_GUIDE.md)
+- [.env.example 文件说明](./ENV_EXAMPLE_README.md)
+- [快速开始](../QUICK_START_SAAS.md)
+
 👏 欢迎加入 [Telegram 群组](https://t.me/CherryStudioAI)｜[Discord](https://discord.gg/wez8HtpxqQ) | [QQ群(575014769)](https://qm.qq.com/q/lo0D4qVZKi)
 
 ❤️ 喜欢 Cherry Studio? 点亮小星星 🌟 或 [赞助开发者](./guides/sponsor.md)! ❤️
